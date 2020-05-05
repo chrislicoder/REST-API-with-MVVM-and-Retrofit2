@@ -1,0 +1,2 @@
+rootProject.name='FooRecipes'
+include ':app'
