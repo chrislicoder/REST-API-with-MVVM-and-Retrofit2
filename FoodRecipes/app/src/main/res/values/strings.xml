@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">FooRecipes</string>
+    <string name="app_name">FoodRecipes</string>
     <string name="button_test">test</string>
 </resources>
