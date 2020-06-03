@@ -2,9 +2,6 @@ package com.chrislicoder.foorecipes
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import com.chrislicoder.foorecipes.models.Recipe
-import com.chrislicoder.foorecipes.requests.RecipeApi
 import com.chrislicoder.foorecipes.requests.ServiceGenerator
 import com.chrislicoder.foorecipes.requests.responses.RecipeResponse
 import com.chrislicoder.foorecipes.util.Constants
@@ -43,15 +40,15 @@ class RecipeListActivity : BaseActivity() {
                 response: Response<RecipeResponse>
             ) {
                 Log.d(
-                    RecipeListActivity.TAG,
+                    TAG,
                     "onResponse: Server Response: $response"
                 )
                 if (response.code() == 200) {
-                    Log.d(RecipeListActivity.TAG, "onResponse: " + response.body()?.recipe?.toString())
+                    Log.d(TAG, "onResponse: " + response.body()?.recipe?.toString())
                 } else {
                     try {
                         Log.d(
-                            RecipeListActivity.TAG,
+                            TAG,
                             "onResponse: " + response.errorBody()?.string()
                         )
                     } catch (e: IOException) {
@@ -64,7 +61,7 @@ class RecipeListActivity : BaseActivity() {
                 call: Call<RecipeResponse>,
                 t: Throwable
             ) {
-                Log.d(RecipeListActivity.TAG, "onResponse: ERROR: " + t.message)
+                Log.d(TAG, "onResponse: ERROR: " + t.message)
             }
         })
     }

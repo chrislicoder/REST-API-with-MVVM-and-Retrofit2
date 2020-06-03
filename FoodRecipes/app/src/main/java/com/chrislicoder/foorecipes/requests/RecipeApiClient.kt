@@ -15,6 +15,3 @@ class RecipeApiClient private constructor() {
         }
     }
 }
-
-
-
