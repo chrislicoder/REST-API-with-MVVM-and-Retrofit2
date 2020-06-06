@@ -10,6 +10,6 @@ object ServiceGenerator {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create<RecipeApi>(RecipeApi::class.java)
+            .create(RecipeApi::class.java)
     }
 }
