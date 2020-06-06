@@ -1,68 +1,40 @@
 package com.chrislicoder.foorecipes
 
 import android.os.Bundle
-import android.util.Log
-import com.chrislicoder.foorecipes.requests.ServiceGenerator
-import com.chrislicoder.foorecipes.requests.responses.RecipeResponse
-import com.chrislicoder.foorecipes.util.Constants
-import kotlinx.android.synthetic.main.activity_base.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.chrislicoder.foorecipes.util.Testing
+import com.chrislicoder.foorecipes.viewmodels.RecipeListViewModel
 import kotlinx.android.synthetic.main.activity_recipe_list.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.IOException
+
+private const val TAG = "RecipeListActivity"
 
 class RecipeListActivity : BaseActivity() {
-    companion object {
-        const val TAG = "TESTING RETROFIT"
-    }
-
+    private lateinit var mRecipeListViewModel: RecipeListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_list)
+
+        mRecipeListViewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
+
+        subscribeObservers()
 
         test.setOnClickListener {
             testRetrofit()
         }
     }
 
-    private fun testRetrofit() {
-        // do get using retrofit
-        val responseCall: Call<RecipeResponse> = ServiceGenerator.recipeApi
-            .getRecipe(
-                Constants.API_KEY,
-                "35382"
-            )
-
-        responseCall.enqueue(object : Callback<RecipeResponse> {
-            override fun onResponse(
-                call: Call<RecipeResponse>,
-                response: Response<RecipeResponse>
-            ) {
-                Log.d(
-                    TAG,
-                    "onResponse: Server Response: $response"
-                )
-                if (response.code() == 200) {
-                    Log.d(TAG, "onResponse: " + response.body()?.recipe?.toString())
-                } else {
-                    try {
-                        Log.d(
-                            TAG,
-                            "onResponse: " + response.errorBody()?.string()
-                        )
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
+    private fun subscribeObservers() {
+        mRecipeListViewModel.recipes
+            .observe(this, Observer { recipeList ->
+                recipeList?.let {
+                    Testing.printRecipes("network test", recipeList)
                 }
-            }
 
-            override fun onFailure(
-                call: Call<RecipeResponse>,
-                t: Throwable
-            ) {
-                Log.d(TAG, "onResponse: ERROR: " + t.message)
-            }
-        })
+            })
+    }
+
+    private fun testRetrofit() {
+        mRecipeListViewModel.searchRecipes("chicken", 1)
     }
 }
