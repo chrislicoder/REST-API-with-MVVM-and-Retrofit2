@@ -26,12 +26,14 @@ class RecipeListActivity : BaseActivity() {
 
     private fun subscribeObservers() {
         mRecipeListViewModel.recipes
-            .observe(this, Observer { recipeList ->
-                recipeList?.let {
-                    Testing.printRecipes("network test", recipeList)
+            .observe(
+                this,
+                Observer { recipeList ->
+                    recipeList?.let {
+                        Testing.printRecipes("network test", recipeList)
+                    }
                 }
-
-            })
+            )
     }
 
     private fun testRetrofit() {
