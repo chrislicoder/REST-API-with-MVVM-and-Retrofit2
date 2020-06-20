@@ -32,8 +32,11 @@ android {
 }
 
 dependencies {
-    def retrofit_version = "2.6.0"
+    def retrofit_version = "2.6.2"
     def lifecycle_version = "2.2.0"
+    def cardview_version = "1.0.0"
+    def recycler_view_version = "1.1.0"
+    def glide_version = "4.11.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -58,7 +61,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
     // Annotation processor
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-    // alternately - if using Java8, use the following instead of lifecycle-compiler
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-
+    // CardView
+    implementation "androidx.cardview:cardview:$cardview_version"
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:$recycler_view_version"
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 }

@@ -62,7 +62,6 @@ class RecipeApiClient private constructor() {
                             currentRecipes?.addAll(it)
                             mRecipes.postValue(currentRecipes)
                         }
-
                     }
                 } else {
                     response.errorBody()?.string()?.let { errorString ->
