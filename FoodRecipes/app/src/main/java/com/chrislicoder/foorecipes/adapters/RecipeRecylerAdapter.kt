@@ -10,9 +10,10 @@ import com.chrislicoder.foorecipes.R
 import com.chrislicoder.foorecipes.models.Recipe
 
 class RecipeRecylerAdapter(
-    private var mRecipes: List<Recipe>,
     private val mOnRecipeListener: OnRecipeListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private lateinit var mRecipes: List<Recipe>
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View = LayoutInflater.from(viewGroup.getContext())
@@ -21,7 +22,7 @@ class RecipeRecylerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return mRecipes.size
+        return if (!this::mRecipes.isInitialized) 0 else mRecipes.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -41,7 +42,10 @@ class RecipeRecylerAdapter(
         }
     }
 
-    fun setRecipes(mRecipes: List<Recipe>) {
-        this.mRecipes = mRecipes
+    fun setRecipes(mRecipes: List<Recipe>?) {
+        mRecipes?.let {
+            this.mRecipes = mRecipes
+            notifyDataSetChanged()
+        }
     }
 }
