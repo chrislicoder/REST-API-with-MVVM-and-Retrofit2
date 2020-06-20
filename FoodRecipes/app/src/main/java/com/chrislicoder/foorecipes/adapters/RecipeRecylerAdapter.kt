@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.chrislicoder.foorecipes.R
 import com.chrislicoder.foorecipes.models.Recipe
 
@@ -27,6 +29,15 @@ class RecipeRecylerAdapter(
             holder.title.text = mRecipes[position].title
             holder.publisher.text = mRecipes[position].publisher
             holder.socialScore.text = this.mRecipes[position].social_rank.toString()
+
+            // set the image
+            val options: RequestOptions =
+                RequestOptions().placeholder(R.drawable.ic_launcher_background)
+
+            Glide.with(holder.itemView.context)
+                .setDefaultRequestOptions(options)
+                .load(mRecipes[position].image_url)
+                .into(holder.image)
         }
     }
 
