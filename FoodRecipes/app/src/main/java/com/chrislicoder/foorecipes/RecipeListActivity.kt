@@ -1,6 +1,7 @@
 package com.chrislicoder.foorecipes
 
 import android.os.Bundle
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,8 +25,8 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
         mRecipeListViewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
 
         initRecyclerView()
+        initSearchView()
         subscribeObservers()
-        testRetrofit()
     }
 
     private fun subscribeObservers() {
@@ -39,17 +40,31 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
                     }
                 }
             )
-
     }
 
     private fun initRecyclerView() {
-        mAdapter = RecipeRecylerAdapter( this)
+        mAdapter = RecipeRecylerAdapter(this)
         mRecyclerView.adapter = mAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun testRetrofit() {
-        mRecipeListViewModel.searchRecipes("chicken", 1)
+    private fun initSearchView() {
+        findViewById<SearchView>(R.id.search_view).apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+
+                    // Search the database for a recipe
+                    query?.let { mRecipeListViewModel.searchRecipes(it, 1) }
+                    return false
+                }
+
+                override fun onQueryTextChange(query: String?): Boolean {
+
+                    // Wait for the user to submit the search. So do nothing here.
+                    return false
+                }
+            })
+        }
     }
 
     override fun onRecipeClick(position: Int) {
