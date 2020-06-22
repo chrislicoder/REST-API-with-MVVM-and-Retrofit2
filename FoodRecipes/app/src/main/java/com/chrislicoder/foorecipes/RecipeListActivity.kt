@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chrislicoder.foorecipes.adapters.OnRecipeListener
-import com.chrislicoder.foorecipes.adapters.RecipeRecylerAdapter
+import com.chrislicoder.foorecipes.adapters.RecipeRecyclerAdapter
 import com.chrislicoder.foorecipes.util.Testing
 import com.chrislicoder.foorecipes.viewmodels.RecipeListViewModel
 
@@ -16,7 +16,7 @@ private const val TAG = "RecipeListActivity"
 class RecipeListActivity : BaseActivity(), OnRecipeListener {
     private lateinit var mRecipeListViewModel: RecipeListViewModel
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mAdapter: RecipeRecylerAdapter
+    private lateinit var mAdapter: RecipeRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +43,7 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
     }
 
     private fun initRecyclerView() {
-        mAdapter = RecipeRecylerAdapter(this)
+        mAdapter = RecipeRecyclerAdapter(this)
         mRecyclerView.adapter = mAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(this)
     }
@@ -53,6 +53,7 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
 
+                    mAdapter.displayLoading()
                     // Search the database for a recipe
                     query?.let { mRecipeListViewModel.searchRecipes(it, 1) }
                     return false

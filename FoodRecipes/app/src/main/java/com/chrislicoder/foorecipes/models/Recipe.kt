@@ -7,10 +7,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Recipe(
-    @SerializedName("title") @Expose val title: String,
-    @SerializedName("publisher") @Expose val publisher: String,
-    @SerializedName("ingredients") @Expose val ingredients: Array<String>,
-    @SerializedName("recipe_id") @Expose val recipe_id: String,
-    @SerializedName("image_url") @Expose val image_url: String,
-    @SerializedName("social_rank") @Expose val social_rank: Float
+    @SerializedName("title") @Expose val title: String? = null,
+    @SerializedName("publisher") @Expose val publisher: String? = null,
+    @SerializedName("ingredients") @Expose val ingredients: Array<String>? = null,
+    @SerializedName("recipe_id") @Expose val recipe_id: String? = null,
+    @SerializedName("image_url") @Expose val image_url: String? = null,
+    @SerializedName("social_rank") @Expose val social_rank: Float? = null
 ) : Parcelable
