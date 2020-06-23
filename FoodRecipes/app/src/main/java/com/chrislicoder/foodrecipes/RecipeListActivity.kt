@@ -27,6 +27,9 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
         initRecyclerView()
         initSearchView()
         subscribeObservers()
+        if (!mRecipeListViewModel.isViewingRecipes) {
+            displaySearchCategories()
+        }
     }
 
     private fun subscribeObservers() {
@@ -72,5 +75,11 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
     }
 
     override fun onCategoryClick(category: String) {
+        mRecipeListViewModel.searchRecipes(category, 1)
+    }
+
+    private fun displaySearchCategories() {
+        mRecipeListViewModel.isViewingRecipes = false
+        mAdapter.displaySearchCategories()
     }
 }

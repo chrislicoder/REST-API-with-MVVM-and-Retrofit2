@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.chrislicoder.foodrecipes.repositories.RecipeRepository
 
 class RecipeListViewModel : ViewModel() {
+    var isViewingRecipes = false
     private val mRecipeRepository: RecipeRepository by lazy {
         RecipeRepository.instance
     }
@@ -11,6 +12,7 @@ class RecipeListViewModel : ViewModel() {
     val recipes = mRecipeRepository.recipes
 
     fun searchRecipes(query: String, pageNumber: Int) {
+        isViewingRecipes = true
         mRecipeRepository.searchRecipesApi(query, pageNumber)
     }
 }
