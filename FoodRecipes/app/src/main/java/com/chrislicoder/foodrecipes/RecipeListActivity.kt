@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chrislicoder.foodrecipes.adapters.OnRecipeListener
 import com.chrislicoder.foodrecipes.adapters.RecipeRecyclerAdapter
 import com.chrislicoder.foodrecipes.util.Testing
+import com.chrislicoder.foodrecipes.util.ui.VerticalSpacingDecorator
 import com.chrislicoder.foodrecipes.viewmodels.RecipeListViewModel
 
 private const val TAG = "RecipeListActivity"
@@ -49,6 +50,7 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
         mAdapter = RecipeRecyclerAdapter(this)
         mRecyclerView.adapter = mAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.addItemDecoration(VerticalSpacingDecorator(30))
     }
 
     private fun initSearchView() {

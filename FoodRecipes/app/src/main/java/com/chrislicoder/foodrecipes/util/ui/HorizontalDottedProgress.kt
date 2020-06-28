@@ -1,4 +1,4 @@
-package com.chrislicoder.foodrecipes.util.UI
+package com.chrislicoder.foodrecipes.util.ui
 
 import android.content.Context
 import android.graphics.Canvas
