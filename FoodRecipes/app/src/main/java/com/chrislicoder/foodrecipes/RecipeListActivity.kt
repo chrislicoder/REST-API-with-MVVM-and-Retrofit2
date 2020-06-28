@@ -39,8 +39,10 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
                 this,
                 Observer { recipeList ->
                     recipeList?.let {
-                        Testing.printRecipes("network test", recipeList)
-                        mAdapter.setRecipes(recipeList)
+                        if (mRecipeListViewModel.isViewingRecipes) {
+                            Testing.printRecipes("network test", recipeList)
+                            mAdapter.setRecipes(recipeList)
+                        }
                     }
                 }
             )
@@ -77,11 +79,20 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
     }
 
     override fun onCategoryClick(category: String) {
+        mAdapter.displayLoading()
         mRecipeListViewModel.searchRecipes(category, 1)
     }
 
     private fun displaySearchCategories() {
         mRecipeListViewModel.isViewingRecipes = false
         mAdapter.displaySearchCategories()
+    }
+
+    override fun onBackPressed() {
+        if (mRecipeListViewModel.onBackPressed()) {
+            super.onBackPressed()
+        } else {
+            displaySearchCategories()
+        }
     }
 }
