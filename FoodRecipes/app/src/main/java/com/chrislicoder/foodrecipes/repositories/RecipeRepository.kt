@@ -18,6 +18,10 @@ class RecipeRepository private constructor() {
         recipeClient.searchRecipesApi(query, number)
     }
 
+    fun cancelRequest() {
+        recipeClient.cancelRequest()
+    }
+
     companion object {
         val instance: RecipeRepository by lazy {
             RecipeRepository()

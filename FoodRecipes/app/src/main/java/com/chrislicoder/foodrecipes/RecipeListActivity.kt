@@ -1,6 +1,8 @@
 package com.chrislicoder.foodrecipes
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -11,10 +13,10 @@ import com.chrislicoder.foodrecipes.adapters.RecipeRecyclerAdapter
 import com.chrislicoder.foodrecipes.util.Testing
 import com.chrislicoder.foodrecipes.util.ui.VerticalSpacingDecorator
 import com.chrislicoder.foodrecipes.viewmodels.RecipeListViewModel
-
-private const val TAG = "RecipeListActivity"
+import kotlinx.android.synthetic.*
 
 class RecipeListActivity : BaseActivity(), OnRecipeListener {
+    private lateinit var searchView: SearchView
     private lateinit var mRecipeListViewModel: RecipeListViewModel
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mAdapter: RecipeRecyclerAdapter
@@ -22,6 +24,7 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_list)
+        searchView = findViewById(R.id.search_view)
         mRecyclerView = findViewById(R.id.recipe_list)
         mRecipeListViewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
 
@@ -31,6 +34,7 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
         if (!mRecipeListViewModel.isViewingRecipes) {
             displaySearchCategories()
         }
+        setSupportActionBar(findViewById(R.id.toolbar))
     }
 
     private fun subscribeObservers() {
@@ -41,6 +45,7 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
                     recipeList?.let {
                         if (mRecipeListViewModel.isViewingRecipes) {
                             Testing.printRecipes("network test", recipeList)
+                            mRecipeListViewModel.isPerformingQuery = false
                             mAdapter.setRecipes(recipeList)
                         }
                     }
@@ -61,6 +66,7 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
 
                     mAdapter.displayLoading()
+                    searchView.clearFocus()
                     // Search the database for a recipe
                     query?.let { mRecipeListViewModel.searchRecipes(it, 1) }
                     return false
@@ -80,6 +86,7 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
 
     override fun onCategoryClick(category: String) {
         mAdapter.displayLoading()
+        searchView.clearFocus()
         mRecipeListViewModel.searchRecipes(category, 1)
     }
 
@@ -94,5 +101,17 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
         } else {
             displaySearchCategories()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_categories -> displaySearchCategories()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.recipe_search_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }

@@ -36,6 +36,11 @@ class RecipeApiClient private constructor() {
         )
     }
 
+    fun cancelRequest() {
+        if (this::mRetrieveRecipesRunnable.isInitialized) {
+            mRetrieveRecipesRunnable.cancelRequest()
+        }
+    }
     private inner class RetrieveRecipesRunnable(
         private val query: String,
         private val pageNumber: Int
@@ -85,7 +90,7 @@ class RecipeApiClient private constructor() {
             )
         }
 
-        private fun cancelRequest() {
+        fun cancelRequest() {
             Log.d(
                 TAG,
                 "cancelRequest: canceling the retrieval query"
