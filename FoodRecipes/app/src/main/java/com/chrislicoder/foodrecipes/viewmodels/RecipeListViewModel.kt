@@ -18,6 +18,12 @@ class RecipeListViewModel : ViewModel() {
         mRecipeRepository.searchRecipesApi(query, pageNumber)
     }
 
+    fun searchNextPage() {
+        if (!isPerformingQuery && isViewingRecipes) {
+            mRecipeRepository.searchNewPage()
+        }
+    }
+
     fun onBackPressed(): Boolean {
         if (isPerformingQuery) {
             isPerformingQuery = false

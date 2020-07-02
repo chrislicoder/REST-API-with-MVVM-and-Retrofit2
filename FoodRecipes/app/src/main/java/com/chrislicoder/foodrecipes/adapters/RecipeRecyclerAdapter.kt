@@ -20,6 +20,7 @@ private const val LOADING_TYPE = 2
 private const val CATEGORY_TYPE = 3
 private const val INVALID_SOCIAL_RANK = -1F
 private const val LOADING_TITLE = "LOADING..."
+private const val EXHAUSTED_TITLE = "EXHAUSTED>>>"
 
 class RecipeRecyclerAdapter(
     private val mOnRecipeListener: OnRecipeListener
@@ -89,7 +90,8 @@ class RecipeRecyclerAdapter(
         } else if (itemViewType == CATEGORY_TYPE && holder is CategoryViewHolder) {
             val options: RequestOptions =
                 RequestOptions().placeholder(R.drawable.ic_launcher_background)
-            val path: Uri = Uri.parse("android.resource://com.chrislicoder.foodrecipes/drawable/${mRecipes[position].image_url}")
+            val path: Uri =
+                Uri.parse("android.resource://com.chrislicoder.foodrecipes/drawable/${mRecipes[position].image_url}")
             Glide.with(holder.itemView.context)
                 .setDefaultRequestOptions(options)
                 .load(path)
@@ -105,6 +107,10 @@ class RecipeRecyclerAdapter(
         return if (mRecipes[position].social_rank == INVALID_SOCIAL_RANK) {
             CATEGORY_TYPE
         } else if (mRecipes[position].title.equals(LOADING_TITLE)) {
+            LOADING_TYPE
+        } else if (position == mRecipes.size - 1
+            && position != 0
+            && !mRecipes[position].title.equals(EXHAUSTED_TITLE)) {
             LOADING_TYPE
         } else {
             RECIPE_TYPE
@@ -124,7 +130,11 @@ class RecipeRecyclerAdapter(
     fun displaySearchCategories() {
         val categories = mutableListOf<Recipe>()
         for ((index, cateboryString) in DEFAULT_SEARCH_CATEGORIES.withIndex()) {
-            val mockRecipe = Recipe(title = cateboryString, image_url = DEFAULT_SEARCH_CATEGORY_IMAGES[index], social_rank = -1F)
+            val mockRecipe = Recipe(
+                title = cateboryString,
+                image_url = DEFAULT_SEARCH_CATEGORY_IMAGES[index],
+                social_rank = -1F
+            )
             categories.add(mockRecipe)
         }
         mRecipes = categories

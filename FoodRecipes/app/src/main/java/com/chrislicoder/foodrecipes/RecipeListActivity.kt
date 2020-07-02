@@ -58,6 +58,14 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
         mRecyclerView.adapter = mAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.addItemDecoration(VerticalSpacingDecorator(30))
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!mRecyclerView.canScrollVertically(1)) {
+                    mRecipeListViewModel.searchNextPage()
+                }
+            }
+        })
     }
 
     private fun initSearchView() {

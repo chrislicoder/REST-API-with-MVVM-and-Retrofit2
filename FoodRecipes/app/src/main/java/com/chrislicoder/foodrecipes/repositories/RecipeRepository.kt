@@ -6,6 +6,8 @@ import com.chrislicoder.foodrecipes.requests.RecipeApiClient
 
 class RecipeRepository private constructor() {
     private val recipeClient by lazy { RecipeApiClient.instance }
+    lateinit var mQuery: String
+    var mPageNumber: Int = 0
 
     val recipes: LiveData<List<Recipe>?>
         get() = recipeClient.recipes
@@ -15,7 +17,13 @@ class RecipeRepository private constructor() {
         if (number == 0) {
             number = 1
         }
+        mQuery = query
+        mPageNumber = pageNumber
         recipeClient.searchRecipesApi(query, number)
+    }
+
+    fun searchNewPage() {
+        searchRecipesApi(mQuery, mPageNumber + 1)
     }
 
     fun cancelRequest() {
