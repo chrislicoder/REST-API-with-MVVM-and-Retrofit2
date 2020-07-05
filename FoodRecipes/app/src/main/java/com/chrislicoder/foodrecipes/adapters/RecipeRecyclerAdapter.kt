@@ -108,9 +108,10 @@ class RecipeRecyclerAdapter(
             CATEGORY_TYPE
         } else if (mRecipes[position].title.equals(LOADING_TITLE)) {
             LOADING_TYPE
-        } else if (position == mRecipes.size - 1
-            && position != 0
-            && !mRecipes[position].title.equals(EXHAUSTED_TITLE)) {
+        } else if (position == mRecipes.size - 1 &&
+            position != 0 &&
+            !mRecipes[position].title.equals(EXHAUSTED_TITLE)
+        ) {
             LOADING_TYPE
         } else {
             RECIPE_TYPE
