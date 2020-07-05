@@ -1,4 +1,4 @@
-package com.chrislicoder.foodrecipes
+package com.chrislicoder.foodrecipes.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,12 +8,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chrislicoder.foodrecipes.R
 import com.chrislicoder.foodrecipes.adapters.OnRecipeListener
 import com.chrislicoder.foodrecipes.adapters.RecipeRecyclerAdapter
 import com.chrislicoder.foodrecipes.util.Testing
 import com.chrislicoder.foodrecipes.util.ui.VerticalSpacingDecorator
 import com.chrislicoder.foodrecipes.viewmodels.RecipeListViewModel
-import kotlinx.android.synthetic.*
 
 class RecipeListActivity : BaseActivity(), OnRecipeListener {
     private lateinit var searchView: SearchView
