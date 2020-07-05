@@ -8,8 +8,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.chrislicoder.foodrecipes.R
 import com.chrislicoder.foodrecipes.models.Recipe
 
-private const val RECIPE_INTENT = "recipe"
-
 class RecipeActivity : BaseActivity() {
     private lateinit var mRecipeImage: AppCompatImageView
     private lateinit var mRecipeTitle: TextView
@@ -21,7 +19,7 @@ class RecipeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
         mRecipeImage = findViewById(R.id.recipe_image)
-        mRecipeTitle = findViewById(R.id.recipe_list)
+        mRecipeTitle = findViewById(R.id.recipe_title)
         mRecipeRank = findViewById(R.id.recipe_social_score)
         mRecipeIngrdeintsContainer = findViewById(R.id.ingredients_container)
         mScrollView = findViewById(R.id.parent)
@@ -35,5 +33,9 @@ class RecipeActivity : BaseActivity() {
                 RECIPE_INTENT
             )
         }
+    }
+
+    companion object {
+        const val RECIPE_INTENT = "recipe"
     }
 }
