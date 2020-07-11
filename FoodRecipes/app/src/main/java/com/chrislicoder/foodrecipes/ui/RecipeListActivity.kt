@@ -1,5 +1,6 @@
-package com.chrislicoder.foodrecipes
+package com.chrislicoder.foodrecipes.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,12 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chrislicoder.foodrecipes.R
 import com.chrislicoder.foodrecipes.adapters.OnRecipeListener
 import com.chrislicoder.foodrecipes.adapters.RecipeRecyclerAdapter
+import com.chrislicoder.foodrecipes.ui.RecipeActivity.Companion.RECIPE_INTENT
 import com.chrislicoder.foodrecipes.util.Testing
 import com.chrislicoder.foodrecipes.util.ui.VerticalSpacingDecorator
 import com.chrislicoder.foodrecipes.viewmodels.RecipeListViewModel
-import kotlinx.android.synthetic.*
 
 class RecipeListActivity : BaseActivity(), OnRecipeListener {
     private lateinit var searchView: SearchView
@@ -90,6 +92,11 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
     }
 
     override fun onRecipeClick(position: Int) {
+        Intent(this, RecipeActivity::class.java).apply {
+            putExtra(RECIPE_INTENT, mAdapter.getSelectedRecipe(position))
+        }.also {
+            startActivity(it)
+        }
     }
 
     override fun onCategoryClick(category: String) {

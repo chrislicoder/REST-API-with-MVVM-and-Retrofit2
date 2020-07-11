@@ -1,10 +1,11 @@
-package com.chrislicoder.foodrecipes
+package com.chrislicoder.foodrecipes.ui
 
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.chrislicoder.foodrecipes.R
 
 abstract class BaseActivity : AppCompatActivity() {
     var mProgressBar: ProgressBar? = null

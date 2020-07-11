@@ -157,4 +157,10 @@ class RecipeRecyclerAdapter(
             notifyDataSetChanged()
         }
     }
+
+    fun getSelectedRecipe(position: Int): Recipe? {
+        return mRecipes.let {
+            if (it.isNotEmpty()) mRecipes[position] else null
+        }
+    }
 }

@@ -12,6 +12,13 @@ class RecipeRepository private constructor() {
     val recipes: LiveData<List<Recipe>?>
         get() = recipeClient.recipes
 
+    val recipe: LiveData<Recipe>
+        get() = recipeClient.recipe
+
+    fun searchRecipeById(recipeID: String) {
+        recipeClient.searchRecipeByID(recipeID)
+    }
+
     fun searchRecipesApi(query: String, pageNumber: Int) {
         var number = pageNumber
         if (number == 0) {
