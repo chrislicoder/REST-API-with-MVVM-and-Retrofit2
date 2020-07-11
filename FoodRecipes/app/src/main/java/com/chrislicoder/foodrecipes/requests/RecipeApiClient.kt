@@ -44,7 +44,7 @@ class RecipeApiClient private constructor() {
     fun searchRecipeByID(recipeID: String) {
         mRetrieveRecipeRunnable = RetrieveRecipeRunnable(recipeID)
         val handler: Future<*> =
-            AppExecutors.instance.networkIO().submit(mRetrieveRecipeRunnable )
+            AppExecutors.instance.networkIO().submit(mRetrieveRecipeRunnable)
 
         // Set a timeout for the data refresh
         AppExecutors.instance.networkIO().schedule(

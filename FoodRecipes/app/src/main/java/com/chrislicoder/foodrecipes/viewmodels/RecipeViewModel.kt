@@ -10,7 +10,7 @@ class RecipeViewModel : ViewModel() {
         RecipeRepository.instance
     }
 
-    lateinit var recipeId: String;
+    lateinit var recipeId: String
 
     fun getRecipe(): LiveData<Recipe> {
         return mRecipeRepository.recipe
