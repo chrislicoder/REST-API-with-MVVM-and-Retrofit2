@@ -12,8 +12,14 @@ class RecipeViewModel : ViewModel() {
 
     lateinit var recipeId: String
 
+    var mDidRetrieveRecipe: Boolean = false
+
     fun getRecipe(): LiveData<Recipe> {
         return mRecipeRepository.recipe
+    }
+
+    fun isRecipeRequestTimeOut(): LiveData<Boolean> {
+        return mRecipeRepository.isRecipeRequestTimeOut
     }
 
     fun searchRecipeById(recipeId: String) {

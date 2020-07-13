@@ -1,6 +1,7 @@
 package com.chrislicoder.foodrecipes.ui
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
@@ -55,10 +56,45 @@ class RecipeActivity : BaseActivity() {
                 recipe?.let {
                     if (recipe.recipe_id.equals(mRecipeViewModel.recipeId)) {
                         setRecipeProperties(it)
+                        mRecipeViewModel.mDidRetrieveRecipe = true
                     }
                 }
             }
         )
+
+        mRecipeViewModel.isRecipeRequestTimeOut().observe(
+            this,
+            Observer {
+                if (it && !mRecipeViewModel.mDidRetrieveRecipe) {
+                    displayErrorScreen(getString(R.string.error_retrieve_message))
+                }
+            }
+        )
+    }
+
+    private fun displayErrorScreen(errorMessage: String) {
+        mRecipeTitle.text = getString(R.string.error_retrieve_message)
+        mRecipeRank.text = ""
+        TextView(this).apply {
+            if (!TextUtils.isEmpty(errorMessage)) {
+                text = errorMessage
+            } else {
+                text = getString(R.string.error_retrieve_message)
+            }
+            textSize = 15F
+            layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+        }.also {
+            mRecipeIngrdeintsContainer.addView(it)
+        }
+
+        Glide.with(this)
+            .setDefaultRequestOptions(RequestOptions().placeholder(R.drawable.ic_launcher_background))
+            .load(R.drawable.ic_launcher_background)
+            .into(mRecipeImage)
+
+        showParent()
+        showProgressBar(false)
+        mRecipeViewModel.mDidRetrieveRecipe = true
     }
 
     private fun setRecipeProperties(recipe: Recipe) {
@@ -79,8 +115,12 @@ class RecipeActivity : BaseActivity() {
             }
         }
 
-        mScrollView.visibility = View.VISIBLE
+        showParent()
         showProgressBar(false)
+    }
+
+    private fun showParent() {
+        mScrollView.visibility = View.VISIBLE
     }
 
     companion object {
