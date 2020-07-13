@@ -15,6 +15,9 @@ class RecipeRepository private constructor() {
     val recipe: LiveData<Recipe>
         get() = recipeClient.recipe
 
+    val isRecipeRequestTimeOut: LiveData<Boolean>
+        get() = recipeClient.timeOut
+
     fun searchRecipeById(recipeID: String) {
         recipeClient.searchRecipeByID(recipeID)
     }

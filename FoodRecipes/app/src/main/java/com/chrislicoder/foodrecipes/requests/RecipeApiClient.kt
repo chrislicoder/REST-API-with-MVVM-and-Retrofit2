@@ -19,10 +19,13 @@ private const val TAG = "RecipeApiClient"
 class RecipeApiClient private constructor() {
     private val mRecipes: MutableLiveData<List<Recipe>?> = MutableLiveData()
     private val mRecipe: MutableLiveData<Recipe> = MutableLiveData()
+    private val mRecipeRequestTimeOut: MutableLiveData<Boolean> = MutableLiveData()
     val recipes: LiveData<List<Recipe>?>
         get() = mRecipes
     val recipe: LiveData<Recipe>
         get() = mRecipe
+    val timeOut: LiveData<Boolean>
+        get() = mRecipeRequestTimeOut
 
     private lateinit var mRetrieveRecipesRunnable: RetrieveRecipesRunnable
     private lateinit var mRetrieveRecipeRunnable: RetrieveRecipeRunnable
@@ -35,6 +38,7 @@ class RecipeApiClient private constructor() {
         // Set a timeout for the data refresh
         AppExecutors.instance.networkIO().schedule(
             { // let the user know it timed out
+                mRecipeRequestTimeOut.postValue(true)
                 handler.cancel(true)
             },
             NETWORK_TIMEOUT.toLong(), TimeUnit.MILLISECONDS
@@ -46,9 +50,11 @@ class RecipeApiClient private constructor() {
         val handler: Future<*> =
             AppExecutors.instance.networkIO().submit(mRetrieveRecipeRunnable)
 
+        mRecipeRequestTimeOut.value = false
         // Set a timeout for the data refresh
         AppExecutors.instance.networkIO().schedule(
             { // let the user know it timed out
+                mRecipeRequestTimeOut.value = true
                 handler.cancel(true)
             },
             NETWORK_TIMEOUT.toLong(), TimeUnit.MILLISECONDS
