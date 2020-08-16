@@ -2,6 +2,7 @@ package com.chrislicoder.foodrecipes.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
@@ -51,6 +52,14 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
                             mAdapter.setRecipes(recipeList)
                         }
                     }
+                }
+            )
+
+        mRecipeListViewModel.isQueryExhausted
+            .observe(
+                this,
+                Observer { exhausted ->
+                    Log.d("test exhausted", "exhausted")
                 }
             )
     }

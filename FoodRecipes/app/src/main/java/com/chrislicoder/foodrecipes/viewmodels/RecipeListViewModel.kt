@@ -12,6 +12,8 @@ class RecipeListViewModel : ViewModel() {
 
     val recipes = mRecipeRepository.recipes
 
+    val isQueryExhausted = mRecipeRepository.isQueryExhausted
+
     fun searchRecipes(query: String, pageNumber: Int) {
         isViewingRecipes = true
         isPerformingQuery = true
@@ -19,7 +21,7 @@ class RecipeListViewModel : ViewModel() {
     }
 
     fun searchNextPage() {
-        if (!isPerformingQuery && isViewingRecipes) {
+        if (!isPerformingQuery && isViewingRecipes && !isQueryExhausted.value!!) {
             mRecipeRepository.searchNewPage()
         }
     }
