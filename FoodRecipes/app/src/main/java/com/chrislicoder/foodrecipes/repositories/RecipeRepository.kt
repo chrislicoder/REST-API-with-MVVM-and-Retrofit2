@@ -67,7 +67,7 @@ class RecipeRepository private constructor() {
     }
 
     private fun doneQuery(list: List<Recipe>?) {
-        mIsQueryExhausted.value = list == null || list.size < 30
+        mIsQueryExhausted.value = list == null || list.size % 30 != 0
     }
 
     companion object {

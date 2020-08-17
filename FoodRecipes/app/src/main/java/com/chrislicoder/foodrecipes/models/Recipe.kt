@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Recipe(
-    @SerializedName("title") @Expose val title: String? = null,
+    @SerializedName("title") @Expose var title: String? = null,
     @SerializedName("publisher") @Expose val publisher: String? = null,
     @SerializedName("ingredients") @Expose val ingredients: Array<String>? = null,
     @SerializedName("recipe_id") @Expose val recipe_id: String? = null,

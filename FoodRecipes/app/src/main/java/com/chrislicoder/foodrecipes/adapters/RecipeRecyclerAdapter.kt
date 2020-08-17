@@ -11,6 +11,7 @@ import com.chrislicoder.foodrecipes.R
 import com.chrislicoder.foodrecipes.adapters.viewholders.CategoryViewHolder
 import com.chrislicoder.foodrecipes.adapters.viewholders.LoadingViewHolder
 import com.chrislicoder.foodrecipes.adapters.viewholders.RecipeViewHolder
+import com.chrislicoder.foodrecipes.adapters.viewholders.SearchExhaustedViewHolder
 import com.chrislicoder.foodrecipes.models.Recipe
 import com.chrislicoder.foodrecipes.util.Constants.DEFAULT_SEARCH_CATEGORIES
 import com.chrislicoder.foodrecipes.util.Constants.DEFAULT_SEARCH_CATEGORY_IMAGES
@@ -18,9 +19,10 @@ import com.chrislicoder.foodrecipes.util.Constants.DEFAULT_SEARCH_CATEGORY_IMAGE
 private const val RECIPE_TYPE = 1
 private const val LOADING_TYPE = 2
 private const val CATEGORY_TYPE = 3
+private const val EXHAUSTED_TYPE = 4
 private const val INVALID_SOCIAL_RANK = -1F
 private const val LOADING_TITLE = "LOADING..."
-private const val EXHAUSTED_TITLE = "EXHAUSTED>>>"
+private const val EXHAUSTED_TITLE = "EXHAUSTED..."
 
 class RecipeRecyclerAdapter(
     private val mOnRecipeListener: OnRecipeListener
@@ -54,6 +56,14 @@ class RecipeRecyclerAdapter(
                 return CategoryViewHolder(
                     view,
                     mOnRecipeListener
+                )
+            }
+
+            EXHAUSTED_TYPE -> {
+                view = LayoutInflater.from(viewGroup.context)
+                    .inflate(R.layout.layout_search_exhausted_list_item, viewGroup, false)
+                return SearchExhaustedViewHolder(
+                    view
                 )
             }
 
@@ -108,6 +118,8 @@ class RecipeRecyclerAdapter(
             CATEGORY_TYPE
         } else if (mRecipes[position].title.equals(LOADING_TITLE)) {
             LOADING_TYPE
+        } else if (mRecipes[position].title.equals(EXHAUSTED_TITLE)) {
+            EXHAUSTED_TYPE
         } else if (position == mRecipes.size - 1 &&
             position != 0 &&
             !mRecipes[position].title.equals(EXHAUSTED_TITLE)
@@ -115,6 +127,17 @@ class RecipeRecyclerAdapter(
             LOADING_TYPE
         } else {
             RECIPE_TYPE
+        }
+    }
+
+    fun setQueryExhausted() {
+        hideLoading()
+        Recipe().apply {
+            title = EXHAUSTED_TITLE
+        }.also {
+            val list = mRecipes.toMutableList()
+            list.add(it)
+            mRecipes = list.toList()
         }
     }
 
@@ -149,6 +172,18 @@ class RecipeRecyclerAdapter(
             }
         }
         return false
+    }
+
+    private fun hideLoading() {
+        if(isLoading()) {
+            val mutableList = mRecipes.toMutableList()
+            for (recipe in mRecipes)
+                if (recipe.title.equals(LOADING_TITLE)) {
+                    mutableList.remove(recipe)
+                }
+            mRecipes = mutableList.toList()
+        }
+        notifyDataSetChanged()
     }
 
     fun setRecipes(mRecipes: List<Recipe>?) {
