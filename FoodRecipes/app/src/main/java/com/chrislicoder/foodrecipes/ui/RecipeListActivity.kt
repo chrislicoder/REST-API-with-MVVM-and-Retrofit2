@@ -53,6 +53,14 @@ class RecipeListActivity : BaseActivity(), OnRecipeListener {
                     }
                 }
             )
+
+        mRecipeListViewModel.isQueryExhausted
+            .observe(
+                this,
+                Observer { exhausted ->
+                    mAdapter.setQueryExhausted()
+                }
+            )
     }
 
     private fun initRecyclerView() {

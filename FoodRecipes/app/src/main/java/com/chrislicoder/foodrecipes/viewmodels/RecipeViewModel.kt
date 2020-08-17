@@ -14,13 +14,9 @@ class RecipeViewModel : ViewModel() {
 
     var mDidRetrieveRecipe: Boolean = false
 
-    fun getRecipe(): LiveData<Recipe> {
-        return mRecipeRepository.recipe
-    }
+    val recipes = mRecipeRepository.recipe
 
-    fun isRecipeRequestTimeOut(): LiveData<Boolean> {
-        return mRecipeRepository.isRecipeRequestTimeOut
-    }
+    val isRecipeRequestTimeOut = mRecipeRepository.isRecipeRequestTimeOut
 
     fun searchRecipeById(recipeId: String) {
         this.recipeId = recipeId

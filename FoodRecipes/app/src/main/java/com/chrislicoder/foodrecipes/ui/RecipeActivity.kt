@@ -50,7 +50,7 @@ class RecipeActivity : BaseActivity() {
     }
 
     private fun subscribeObservers() {
-        mRecipeViewModel.getRecipe().observe(
+        mRecipeViewModel.recipes.observe(
             this,
             Observer { recipe ->
                 recipe?.let {
@@ -62,7 +62,7 @@ class RecipeActivity : BaseActivity() {
             }
         )
 
-        mRecipeViewModel.isRecipeRequestTimeOut().observe(
+        mRecipeViewModel.isRecipeRequestTimeOut.observe(
             this,
             Observer {
                 if (it && !mRecipeViewModel.mDidRetrieveRecipe) {
